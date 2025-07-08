@@ -65,12 +65,14 @@ This project is based on the [itzg/minecraft-server](https://github.com/itzg/doc
 ## Directory Structure
 
 - **Default Directories:**
-  - Server data: `/opt/minecraft-servers/<platform>_<date>_<name>/` (can be changed in `mc.sh` by changing the variable `__dcf_mc__server_dir`)
+  - Server data: `/opt/minecraft-servers/<platform>_<date>_<name>/`
+    > Can be changed in `mc.sh` by changing the variable `__dcf_mc__server_dir`
   - Configs: `configs/`
   - Compose files: `compose/`
   - Platform configs: `platforms/`
   - Secrets: `secrets/`
-  - Backups: `/opt/minecraft-backups` (can be changed in `mc.sh` by changing the variable `__dcf_mc__backup_dir`)
+  - Backups: `/opt/minecraft-backups`
+    > Can be changed in `mc.sh` by changing the variable `__dcf_mc__backup_dir`
 
 ---
 

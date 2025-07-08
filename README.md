@@ -178,3 +178,6 @@ The `mc.create` command helps you quickly generate a new server configuration fi
   If you omit `[server_name]`, the filename will include `CHANGEME` and you'll be prompted to rename it.
 
 ---
+
+# Credits
+This project is inspired by the work of [itzg](https://github.com/itzg) and aims to provide a user-friendly way to manage Minecraft servers with Docker Compose.

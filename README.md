@@ -1,5 +1,7 @@
 # Minecraft Server Management
 
+> **Heads up:** This is a hobby project. While useful, it may contain bugs or breaking changes. Use at your own risk and always review scripts before running them on important systems.
+
 This project provides a flexible Docker Compose-based setup for running various Minecraft server types (CurseForge, FTB, Fabric, NeoForge, etc.) with optional backup support and easy mod management.
 
 This project is based on the [itzg/minecraft-server](https://github.com/itzg/docker-minecraft-server) and the [itzg/mc-backup](https://github.com/itzg/docker-mc-backup).

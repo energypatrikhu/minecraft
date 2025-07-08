@@ -132,8 +132,14 @@ __dcf-mc-autocomplete() {
 __dcf-mc-get-configs() {
   find "$__dcf_mc__config_env_base" -type f -name "*.env" -not \( -name "@*" \) -printf '%f\n' | sed 's/\.env$//'
 }
+__dcf-mc-get-configs-examples() {
+  find "$__dcf_mc__config_env_base/examples" -type f -name "@*.env" -printf '%f\n' | sed 's/^@example.//' | sed 's/\.env$//'
+}
 __dcf-mc-list-configs() {
   __dcf-mc-autocomplete "$(__dcf-mc-get-configs "$1")"
+}
+__dcf-mc-list-configs-examples() {
+  __dcf-mc-autocomplete "$(__dcf-mc-get-configs-examples "$1")"
 }
 __dcf-mc-display-help() {
   echo "Usage: mc <server>"
@@ -151,10 +157,64 @@ mc() {
 }
 complete -F __dcf-mc-list-configs mc
 
+mc.create() {
+  local server_type="$1"
+  local server_name="$2"
+
+  if [[ -z "$server_type" ]]; then
+    echo "Usage: mc.create <server_type> [server_name]"
+    echo "Available server types:"
+    __dcf-mc-get-configs-examples | sed 's/^/  /'
+    return 1
+  fi
+
+  local config_file="$__dcf_mc__config_env_base/examples/@example.$server_type.env"
+  if [[ ! -f "$config_file" ]]; then
+    echo "Error: Configuration file for server type '$server_type' does not exist."
+    echo "Available server types:"
+    __dcf-mc-get-configs-examples | sed 's/^/  /'
+    return 1
+  fi
+
+  local date=$(date +%Y-%m-%d)
+  local new_config_file="$__dcf_mc__config_env_base/${server_type}_${date}_${server_name:-CHANGEME}.env"
+
+  if [[ -f "$new_config_file" ]]; then
+    echo "Error: Configuration file '$new_config_file' already exists. Please choose a different name."
+    return 1
+  fi
+
+  touch "$new_config_file"
+  while IFS= read -r line; do
+    if [[ "$line" == "CREATED_AT = "* ]]; then
+      line="CREATED_AT = $date"
+    fi
+    if [[ "$line" == "SERVER_NAME = "* ]]; then
+      if [[ -n "$server_name" ]]; then
+        line="SERVER_NAME = $server_name"
+      else
+        line="SERVER_NAME = CHANGE ME"
+      fi
+    fi
+
+    echo "$line" >>"$new_config_file"
+  done <"$config_file"
+
+  echo "Configuration file '$new_config_file' created successfully."
+  if [[ -z "$server_name" ]]; then
+    echo "Please replace 'CHANGEME' in the filename with your desired server name or modpack name."
+  fi
+  echo "You can now edit the configuration file '$new_config_file' to set up your server."
+}
+complete -F __dcf-mc-list-configs-examples mc.create
+
 mc.help() {
-  echo "+---------+--------------------------------------+"
-  echo "| mc.help | Minecraft commands (This command)    |"
-  echo "+---------+--------------------------------------+"
-  echo "| mc      | Start Minecraft Server (mc <server>) |"
-  echo "+---------+--------------------------------------+"
+  echo "+------------+--------------------------------------------------+"
+  echo "| mc.help    | Minecraft commands (This command)                |"
+  echo "+------------+--------------------------------------------------+"
+  echo "| mc         | Start Minecraft Server (mc <server>)             |"
+  echo "+------------+--------------------------------------------------+"
+  echo "| mc.create  | Create a new Minecraft server configuration file |"
+  echo "+------------+--------------------------------------------------+"
+
 }

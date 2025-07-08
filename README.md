@@ -7,15 +7,13 @@ This project is based on the [itzg/minecraft-server](https://github.com/itzg/doc
 ---
 
 ## Sourcing the Script
-
-> **Note:** You must source `mc.sh` to use the `mc`, `mc.create`, and `mc.help` commands as shell functions:
->
-> ```sh
-> source ./mc.sh
-> # Now you can use: mc, mc.create, mc.help
-> ```
->
-> Running `./mc.sh` directly only works for starting a server (e.g., `./mc.sh <server>`), not for the helper commands.
+**Note:** You must source `mc.sh` to use the `mc`, `mc.create`, and `mc.help` commands as shell functions:
+> You can add it to your `.bashrc` file if you don't feel like to source the file everytime before usage.
+```sh
+source ./mc.sh
+# Now you can use: mc, mc.create, mc.help
+```
+Running `./mc.sh` directly only does not do anything.
 
 ---
 

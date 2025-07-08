@@ -1,0 +1,8 @@
+secrets:
+  curseforge_api_key:
+    file: ../secrets/curseforge_api_key.txt
+
+networks:
+  default:
+    name: mc_${SERVER_TYPE}_${CREATED_AT}_${CONTAINER_NAME:-${MODPACK_NAME:-}}_network
+    enable_ipv6: true

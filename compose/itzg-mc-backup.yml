@@ -1,0 +1,13 @@
+services:
+  minecraft-server-backup:
+    container_name: mc_${SERVER_TYPE}_${CREATED_AT}_${CONTAINER_NAME:-${MODPACK_NAME:-}}_backup
+    image: docker.io/itzg/mc-backup
+    restart: unless-stopped
+    env_file:
+      - ../env/.backup.env
+      - ../env/.tz.env
+    volumes:
+      - ${SERVER_DIR}/${SERVER_TYPE}_${CREATED_AT}_${CONTAINER_NAME:-${MODPACK_NAME:-}}:/data:ro
+      - ${BACKUP_DIR}/${SERVER_TYPE}_${CREATED_AT}_${CONTAINER_NAME:-${MODPACK_NAME:-}}:/backups
+    labels:
+      com.centurylinklabs.watchtower.enable: false

@@ -1,0 +1,24 @@
+services:
+  minecraft-server:
+    container_name: mc_${SERVER_TYPE}_${CREATED_AT}_${CONTAINER_NAME:-${MODPACK_NAME:-}}
+    image: docker.io/itzg/minecraft-server:java${JAVA_VERSION}-${JAVA_TYPE:-alpine}
+    tty: true
+    stdin_open: true
+    stop_grace_period: 30s
+    restart: unless-stopped
+    secrets:
+      - curseforge_api_key
+    env_file:
+      - ../platforms/.${SERVER_TYPE}.env
+      - ../env/.container.env
+      - ../env/.downloaders.env
+      - ../env/.java.env
+      - ../env/.players.env
+      - ../env/.properties.env
+      - ../env/.tz.env
+    ports:
+      - ${SERVER_PORT:-25565}:25565/tcp
+    volumes:
+      - ${SERVER_DIR}/${SERVER_TYPE}_${CREATED_AT}_${CONTAINER_NAME:-${MODPACK_NAME:-}}:/data
+    labels:
+      com.centurylinklabs.watchtower.enable: false

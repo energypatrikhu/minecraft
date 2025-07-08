@@ -6,6 +6,19 @@ This project is based on the [itzg/minecraft-server](https://github.com/itzg/doc
 
 ---
 
+## Sourcing the Script
+
+> **Note:** You must source `mc.sh` to use the `mc`, `mc.create`, and `mc.help` commands as shell functions:
+>
+> ```sh
+> source ./mc.sh
+> # Now you can use: mc, mc.create, mc.help
+> ```
+>
+> Running `./mc.sh` directly only works for starting a server (e.g., `./mc.sh <server>`), not for the helper commands.
+
+---
+
 ## Environments
 
 - **Default Environment Files:**
@@ -129,9 +142,39 @@ This project is based on the [itzg/minecraft-server](https://github.com/itzg/doc
 3. Start the server:
 
     ```sh
-    ./mc.sh curseforge_2025-02-16_all-the-mods-10
+    mc curseforge_2025-02-16_all-the-mods-10
     ```
 
 ---
 
 For more details, see comments in the example config files and the `mc.sh` script.
+
+---
+
+## Creating a New Server Config with `mc.create`
+
+The `mc.create` command helps you quickly generate a new server configuration file from a template.
+
+- **Usage:**
+  ```sh
+  mc.create <server_type> [server_name]
+  ```
+  - `<server_type>`: The type of server (e.g., `curseforge`, `fabric`, `forge`, etc.).
+  - `[server_name]`: (Optional) The name for your server or modpack.
+
+- **How it works:**
+  - Copies the appropriate example config from `configs/examples/@example.<server_type>.env`.
+  - Creates a new file in `configs/` named `<server_type>_<YYYY-MM-DD>_<server_name>.env` (date is today).
+  - Fills in `CREATED_AT` and `SERVER_NAME` automatically.
+
+- **Example:**
+  ```sh
+  mc.create curseforge all-the-mods-10
+  # Creates configs/curseforge_2025-07-08_all-the-mods-10.env
+  ```
+  Edit the new file as needed, then start your server as usual.
+
+- **Tip:**
+  If you omit `[server_name]`, the filename will include `CHANGEME` and you'll be prompted to rename it.
+
+---

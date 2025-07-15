@@ -24,19 +24,6 @@ __dcf-mc-get-java-type() {
     echo "graalvm"
   fi
 }
-__dcf-mc-set-flags() {
-  local config_env="$1"
-  local tmp_env_file="$2"
-  local java_version=$(__dcf-mc-get-env-value "$config_env" "JAVA_VERSION")
-
-  # If JAVA_VERSION < 17 use AIKAR, else use MEOWICE flags
-  if [[ "$java_version" -lt 17 ]]; then
-    echo "USE_AIKAR_FLAGS = true" >>"$tmp_env_file"
-  else
-    echo "USE_MEOWICE_FLAGS = true" >>"$tmp_env_file"
-    echo "USE_MEOWICE_GRAALVM_FLAGS = true" >>"$tmp_env_file"
-  fi
-}
 __dcf-mc-get-backup-enabled() {
   local config_env="$1"
   local backup_enabled=$(__dcf-mc-get-env-value "$config_env" "BACKUP")
@@ -67,7 +54,6 @@ __dcf-mc() {
   echo "SERVER_TYPE = $server_type" >>"$tmp_env_file"
   echo "SERVER_DIR = $__dcf_mc__server_dir" >>"$tmp_env_file"
   echo "JAVA_TYPE = $java_type" >>"$tmp_env_file"
-  __dcf-mc-set-flags "$config_env" "$tmp_env_file"
 
   echo -e "Starting Minecraft Server"
   if [[ "$backup_enabled" == "true" ]]; then
